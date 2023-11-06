@@ -2,13 +2,13 @@ const express = require('express');
 const app = express();
 const port = 3001;
 
-const knex = require('knex'); 
-const knexConfig = require('./knexfile'); 
-
-const db = knex(knexConfig.development); 
+const knex = require('knex');
+const knexConfig = require('./knexfile');
+const db = knex(knexConfig.development);
 
 app.use(express.json());
 
+// GET endpoint to fetch movies
 app.get('/movies', async (req, res) => {
   try {
     const movies = await db.select().from('movie_table');
@@ -19,6 +19,24 @@ app.get('/movies', async (req, res) => {
   }
 });
 
+// POST endpoint to add a new movie
+app.post('/addMovie', async (req, res) => {
+  const { title } = req.body;
+
+  if (!title) {
+    return res.status(400).json({ error: 'Movie title is required' });
+  }
+
+  try {
+    // Add the movie to the database
+    await db('movie_table').insert({ title });
+    res.json({ message: 'Movie added successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-})
+});

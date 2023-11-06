@@ -9,6 +9,9 @@ exports.seed = function (knex) {
         { title: 'The Grey' },
         { title: 'Sunshine' },
         { title: 'Ex Machina' },
+        { title: 'Ironman' },
+        { title: 'Finding Nemo' },
+        { title: 'Bee Movie' }
       ]);
     });
 };
