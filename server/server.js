@@ -8,7 +8,6 @@ const db = knex(knexConfig.development);
 
 app.use(express.json());
 
-// GET endpoint to fetch movies
 app.get('/movies', async (req, res) => {
   try {
     const movies = await db.select().from('movie_table');
@@ -19,7 +18,7 @@ app.get('/movies', async (req, res) => {
   }
 });
 
-// POST endpoint to add a new movie
+
 app.post('/addMovie', async (req, res) => {
   const { title } = req.body;
 
@@ -28,7 +27,6 @@ app.post('/addMovie', async (req, res) => {
   }
 
   try {
-    // Add the movie to the database
     await db('movie_table').insert({ title });
     res.json({ message: 'Movie added successfully' });
   } catch (error) {
